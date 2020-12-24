@@ -2,11 +2,24 @@ package com.cos.hello.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import com.cos.hello.config.DBConn;
 import com.cos.hello.model.Users;
 
 public class UsersDao {
+	
+	private static UsersDao usersDao = null;
+    
+	private UsersDao() {};
+	
+	public static UsersDao getInstance() {//new를 한번만 수행
+		if(usersDao == null) {
+			usersDao = new UsersDao();
+		}
+		
+		return usersDao; 
+	}
 	
 	
 	public int insert(Users user) {
@@ -38,4 +51,75 @@ public class UsersDao {
 		
 		return -1;
 	}
+	
+	
+	public Users login(Users user) {
+//		StringBuffer sb = new StringBuffer(); //스트링 전용 컬렉션(동기화) 이거는 안되는데?
+//		sb.append("SELECT id, username, email from users "); //띄어쓰기 중요!!!!
+//		sb.append("where username = ? and password= ?");
+//		String sql = sb.toString();
+		
+		String sql = "SELECT id, username, email from users where username = ? and password= ?";
+//        boolean loginCon = false;
+		
+		Connection conn = DBConn.getInstance(); //선 연결
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, user.getPassword());
+			ResultSet rs = pstmt.executeQuery();//변경된 행의 개수를 리턴
+	
+			if(rs.next()) {
+				Users userEntity = Users.builder()
+						.id(rs.getInt("id"))
+						.username(rs.getString("username"))
+						.email(rs.getString("email"))
+						.build();
+				return userEntity;
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //버퍼 달기
+		
+		return null;
+		//return loginCon;
+	}
+	
+	
+	public Users selectById(int id) {
+		String sql = "SELECT id, password, username, email from users where id = ?";
+		
+		Connection conn = DBConn.getInstance(); //선 연결
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();//변경된 행의 개수를 리턴
+	
+			if(rs.next()) {
+				Users userEntity = Users.builder()
+						.id(rs.getInt("id"))
+						.password(rs.getString("password"))
+						.username(rs.getString("username"))
+						.email(rs.getString("email"))
+						.build();
+				return userEntity;
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return null;
+	
+	}
+	
+	
+	
+	
 }
