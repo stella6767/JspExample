@@ -1,6 +1,9 @@
 package com.cos.hello.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,8 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cos.hello.config.DBConn;
+import com.cos.hello.dao.UsersDao;
 import com.cos.hello.model.Users;
 
+//디스패쳐의 역할 = 분기 = 필요한 View를 응답해주는 것
 public class UserController extends HttpServlet {
 
 	// req와 res는 톰캣이 만들어줍니다.(클라이언트의 요청이 있을때 마다)
@@ -84,6 +90,17 @@ public class UserController extends HttpServlet {
 			String password = req.getParameter("password");
 			String email = req.getParameter("email");
 
+			
+			Users user = Users.builder()
+					.username(username)
+					.password(password)
+					.email(email)
+					.build();
+			
+			
+			UsersDao usersDao = new UsersDao(); //싱글톤, getinstance로 바꾸자
+			int result = usersDao.회원가입(user);
+			
 			System.out.println("===================JoinProc Start================");
 			System.out.println(username);
 			System.out.println(password);
@@ -91,10 +108,19 @@ public class UserController extends HttpServlet {
 			System.out.println("===================JoinProc End================");
 
 			// 2번 DB에 연결해서 3가지 값을 insert 하기
-			// 생략
-
-			// 3번 insert가 정상적으로 되었다면 index.jsp를 응답!!
-			resp.sendRedirect("index.jsp");
+			if(result == 1) {
+				// 3번 insert가 정상적으로 되었다면 index.jsp를 응답!!
+				resp.sendRedirect("auth/login.jsp");
+			}else {
+				resp.sendRedirect("auth/join.jsp");
+			}
+			
+			
+			
+			
+			
+			
+		
 
 		} else if (gubun.equals("loginProc")) {
 			String username = req.getParameter("username");
