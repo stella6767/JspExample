@@ -20,5 +20,9 @@
 	</tr>
 
 </table>
+<form action ="user?gubun=deleteProc" method="post">
+	<input type="hidden" name="id" value="${user.id}"/>
+	<button>삭제</button>
+</form>
 </body>
 </html>

@@ -4,7 +4,7 @@
 
 <h1>회원정보수정</h1>
 
-<form action="updateProc" method="post">
+<form action="/hello/user?gubun=updateProc" method="post">
 	<table border = "1">
 		<tr>
 			<th>번호</th>
@@ -14,7 +14,9 @@
 		</tr>
 		
 		<tr>	
-			<td>${user.id}</td>
+			<td>${user.id}
+				<input type ="hidden" name="id" value ="${user.id}">
+			</td>
 			<td>${user.username}</td>
 			<td>
 				<input type ="password" name="password" value ="${user.password}">

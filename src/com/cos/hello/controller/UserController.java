@@ -73,7 +73,15 @@ public class UserController extends HttpServlet {
 		} else if (gubun.equals("loginProc")) {						
 			usersService.로그인(req, resp);
 		
+		}else if (gubun.equals("updateProc")) {						
+			usersService.회원수정(req, resp);
+		
+		}else if (gubun.equals("deleteProc")) {						
+			usersService.회원삭제(req, resp);
+		
 		}
+		
+		
 
 	}
 

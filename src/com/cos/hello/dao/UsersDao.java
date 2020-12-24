@@ -120,6 +120,60 @@ public class UsersDao {
 	}
 	
 	
+	public int update(Users user) {
+
+		String sql = "UPDATE users SET password = ?, email = ? where Id = ?";
+		
+		Connection conn = DBConn.getInstance(); //선 연결
+		
+		System.out.println(user.getId());
+		System.out.println(user.getPassword());
+		System.out.println(user.getEmail());
+		
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getPassword());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setInt(3, user.getId());
+			int result = pstmt.executeUpdate();//변경된 행의 개수를 리턴
+			
+			System.out.println("result 값" + result);
+			return result;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //버퍼 달기
+		
+		
+		return -1;
+	}
+	
+	public int deleteById(int id) {
+
+		String sql = "DELETE FROM users WHERE id = ?";
+		
+		Connection conn = DBConn.getInstance(); //선 연결
+		
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);		
+			int result = pstmt.executeUpdate();//변경된 행의 개수를 리턴
+			
+			System.out.println("result 값" + result);
+			return result;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //버퍼 달기
+		
+		
+		return -1;
+	}
+	
+	
 	
 	
 }
