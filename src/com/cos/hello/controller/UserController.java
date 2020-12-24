@@ -99,7 +99,7 @@ public class UserController extends HttpServlet {
 			
 			
 			UsersDao usersDao = new UsersDao(); //싱글톤, getinstance로 바꾸자
-			int result = usersDao.회원가입(user);
+			int result = usersDao.insert(user);
 			
 			System.out.println("===================JoinProc Start================");
 			System.out.println(username);

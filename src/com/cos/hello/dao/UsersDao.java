@@ -9,7 +9,7 @@ import com.cos.hello.model.Users;
 public class UsersDao {
 	
 	
-	public int 회원가입(Users user) {
+	public int insert(Users user) {
 		
 		StringBuffer sb = new StringBuffer(); //스트링 전용 컬렉션(동기화)
 		sb.append("INSERT INTO users(username,password,email)");
