@@ -83,7 +83,8 @@ public class AttackFilter implements Filter {
 		}
 
 		public String changeWord(String text) {
-			String result = text.replaceAll("<", "<").replaceAll(">", ">");
+			String result = text.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+			System.out.println(result);
 			return result;
 		}
 

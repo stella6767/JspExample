@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.cos.hello.config.DBConn;
+import com.cos.hello.dto.JoinDto;
+import com.cos.hello.dto.LoginDto;
 import com.cos.hello.model.Users;
 
 public class UsersDao {
@@ -22,7 +24,7 @@ public class UsersDao {
 	}
 	
 	
-	public int insert(Users user) {
+	public int insert(JoinDto joinDto) {
 		
 		StringBuffer sb = new StringBuffer(); //스트링 전용 컬렉션(동기화)
 		sb.append("INSERT INTO users(username,password,email)");
@@ -36,9 +38,9 @@ public class UsersDao {
 		Connection conn = DBConn.getInstance(); //선 연결
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
-			pstmt.setString(3, user.getEmail());
+			pstmt.setString(1, joinDto.getUsername());
+			pstmt.setString(2, joinDto.getPassword());
+			pstmt.setString(3, joinDto.getEmail());
 			int result = pstmt.executeUpdate();//변경된 행의 개수를 리턴
 	
 			return result;
@@ -53,7 +55,7 @@ public class UsersDao {
 	}
 	
 	
-	public Users login(Users user) {
+	public Users login(LoginDto loginDto) {
 //		StringBuffer sb = new StringBuffer(); //스트링 전용 컬렉션(동기화) 이거는 안되는데?
 //		sb.append("SELECT id, username, email from users "); //띄어쓰기 중요!!!!
 //		sb.append("where username = ? and password= ?");
@@ -66,8 +68,8 @@ public class UsersDao {
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, user.getUsername());
-			pstmt.setString(2, user.getPassword());
+			pstmt.setString(1, loginDto.getUsername());
+			pstmt.setString(2, loginDto.getPassword());
 			ResultSet rs = pstmt.executeQuery();//변경된 행의 개수를 리턴
 	
 			if(rs.next()) {
