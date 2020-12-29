@@ -43,6 +43,7 @@ public class UserController extends HttpServlet {
 
 	protected void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		//req.setCharacterEncoding("utf-8"); //요청헤더에 utf-8
 		System.out.println("doprocess 실행");
 
 		String gubun = req.getParameter("gubun"); // /hello/front
@@ -53,9 +54,10 @@ public class UserController extends HttpServlet {
 
 	// throw ioexception은 이 함수 전체를 try-catch문으로 묶는다는 의미
 	private void route(String gubun, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		
+		
 		UsersService usersService = new UsersService();
-		
-		
+				
 		// 이런 것들이 라우터, gubun이라는 프로토콜로 분기점
 		if (gubun.equals("login")) {
 			resp.sendRedirect("auth/login.jsp");

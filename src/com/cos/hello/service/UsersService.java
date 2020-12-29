@@ -55,6 +55,8 @@ public class UsersService {
 		System.out.println(password);
 		System.out.println("===================loginProc End================");
 
+		//System.out.println(username);
+		
 		// 1번 전달되는 값 받기
 		Users user = Users.builder().username(username).password(password).build();
 
